@@ -1,0 +1,415 @@
+// Ground Truth Test Data Suite for Passive-Aggressive Classifier (PAC) Model
+// Real-world benchmark cases spanning Articles, OCR Image transcripts, and Official Documents
+
+export interface TestCaseItem {
+  id: string;
+  title: string;
+  text: string;
+  groundTruth: 'REAL' | 'FAKE';
+  category:
+    | 'Health & Medicine'
+    | 'Politics & Policy'
+    | 'Science & Space'
+    | 'Finance & Economy'
+    | 'Technology & AI'
+    | 'Environment & Climate'
+    | 'Social & Viral';
+  format: 'text' | 'image' | 'document';
+  source: string;
+  sourceType: 'Journalistic Wire' | 'Peer-Reviewed Journal' | 'Government Agency' | 'Social Media' | 'Conspiracy Blog' | 'Phishing / Scam';
+  date: string;
+  notes: string;
+  expectedSignals: string[];
+  sampleMeta?: {
+    imageBadge?: string;
+    documentType?: string;
+    fileSizeKb?: number;
+  };
+}
+
+export const BENCHMARK_TEST_DATA: TestCaseItem[] = [
+  // ==========================================
+  // TEXT & NEWS ARTICLES: FAKE NEWS SAMPLES
+  // ==========================================
+  {
+    id: 'test-fake-01',
+    title: 'Secret lemon and baking soda mixture cures all stage 4 cancers in 24 hours',
+    text: 'A courageous team of underground doctors has leaked the forbidden panacea that the pharmaceutical cartel spent billions to suppress. Drinking warm lemon juice with high-alkaline baking soda immediately destroys 100 percent of cancer cells, reverses type 2 diabetes overnight, and cleanses arteries. Mainstream oncologists are terrified this secret will bankrupt hospitals. Share immediately before federal authorities delete this post.',
+    groundTruth: 'FAKE',
+    category: 'Health & Medicine',
+    format: 'text',
+    source: 'Holistic Truth Underground Blog',
+    sourceType: 'Conspiracy Blog',
+    date: '2026-09-18',
+    notes: 'Exhibits extreme panacea claims ("cures all stage 4 cancers in 24 hours"), pharma cartel persecution complex, and urgent viral sharing imperative.',
+    expectedSignals: ['Miracle cure claim', 'Suppression conspiracy', 'Urgent sharing call', 'No clinical trial citation'],
+  },
+  {
+    id: 'test-fake-02',
+    title: 'Leaked Pentagon dispatch confirms mandatory digital tracking microchips added to municipal tap water',
+    text: 'Classified emergency directives obtained by anonymous hacktivists prove that water treatment facilities in 48 states began injecting bio-synthetic liquid microchips into residential drinking water this past Tuesday. The nano-trackers resonate at 5G millimeter frequencies to monitor citizen thoughts and compliance. Whistleblower warns boiling water does not deactivate the microscopic nodes.',
+    groundTruth: 'FAKE',
+    category: 'Politics & Policy',
+    format: 'text',
+    source: 'DarkNet Telegram Intel Channel',
+    sourceType: 'Social Media',
+    date: '2026-09-22',
+    notes: 'Classic biopolitical paranoia merging municipal utilities with 5G mind-control tropes and anonymous whistleblower tropes without verifiable agency records.',
+    expectedSignals: ['Nano-microchip panic', 'Unsubstantiated leak attribution', 'Absurd physics claims'],
+  },
+  {
+    id: 'test-fake-03',
+    title: 'Warren Buffett breaks down in tears during live BBC interview showing automated wealth loophole',
+    text: 'In an unprecedented broadcast malfunction, legendary Berkshire Hathaway chairman Warren Buffett accidentally demonstrated a proprietary quantum algorithmic loop that guarantees $12,500 daily returns from an initial $250 deposit. Before producers cut the transmission, Buffett urged everyday citizens to register before major commercial banks lobby lawmakers to criminalize the loophole.',
+    groundTruth: 'FAKE',
+    category: 'Finance & Economy',
+    format: 'text',
+    source: 'Sponsored Clickbait Redirect Network',
+    sourceType: 'Phishing / Scam',
+    date: '2026-09-25',
+    notes: 'Standard synthetic celebrity endorsement scam engineered with manufactured urgency, artificial scarcity, and non-existent broadcast incidents.',
+    expectedSignals: ['Celebrity tearful breakdown', 'Overnight wealth multiplier', 'Fake broadcast disruption'],
+  },
+  {
+    id: 'test-fake-04',
+    title: 'NASA astrophysicists detect massive alien mothership decelerating into orbit behind Jupiter',
+    text: 'Renegade astronomers at an undisclosed desert observatory confirm telemetry data indicating a six-kilometer metallic craft entered the Jovian orbital sphere yesterday evening. Defense intelligence agencies have ordered a complete radio blackout across civilian telescopes while emergency interstellar defensive protocols are drafted in Washington.',
+    groundTruth: 'FAKE',
+    category: 'Science & Space',
+    format: 'text',
+    source: 'Cosmic Awakening Dispatch',
+    sourceType: 'Conspiracy Blog',
+    date: '2026-09-29',
+    notes: 'Fabricated astronomical discovery lacking celestial coordinates, peer review, NASA deep space network confirmations, or public spectral logs.',
+    expectedSignals: ['Secret desert observatory', 'Imminent planetary invasion', 'Suppression order claim'],
+  },
+  {
+    id: 'test-fake-05',
+    title: 'Emergency federal ordinance outlaws private vehicle ownership by December 31st',
+    text: 'A sweeping executive decree signed behind closed doors late Friday evening revokes all state automotive driver licenses and orders law enforcement to impound gasoline vehicles by year end. Citizens will be mandated to utilize centralized biometric transit corridors or face severe felony charges.',
+    groundTruth: 'FAKE',
+    category: 'Politics & Policy',
+    format: 'text',
+    source: 'Freedom Alert Patriot Substack',
+    sourceType: 'Social Media',
+    date: '2026-09-30',
+    notes: 'Fabricated executive order without Federal Register citation, legal docket number, or administrative corroboration.',
+    expectedSignals: ['Secret executive order', 'Draconian impoundment rumor', 'Unverified legal panic'],
+  },
+  {
+    id: 'test-fake-06',
+    title: '5G beam-forming arrays proven to disrupt human hemoglobin cellular oxygen uptake',
+    text: 'Independent holistic physics researchers confirm high-frequency microwave emissions from cellular transceivers alter molecular iron spins in red blood cells, causing acute hypoxia and neurological confusion. Telco executives reportedly wear lead-lined garments inside corporate headquarters.',
+    groundTruth: 'FAKE',
+    category: 'Technology & AI',
+    format: 'text',
+    source: 'Bio-Vibration Health Watch',
+    sourceType: 'Conspiracy Blog',
+    date: '2026-10-01',
+    notes: 'Pseudoscientific conflation of non-ionizing radio frequencies with biological cellular damage, relying on sensationalist buzzwords.',
+    expectedSignals: ['Pseudoscience jargon', 'Telco conspiracy claim', 'Unpublished independent tests'],
+  },
+  {
+    id: 'test-fake-07',
+    title: 'Drinking concentrated raw elderberry syrup grants permanent immunity against all seasonal influenza strains',
+    text: 'Holistic clinical practitioners announce that natural bioflavonoids in unprocessed elderberry eradicate viral capsids instantaneously upon oral contact. No seasonal inoculations or medical consultations are ever required once the 3-day syrup cleanse is completed.',
+    groundTruth: 'FAKE',
+    category: 'Health & Medicine',
+    format: 'text',
+    source: 'Natural Immunity Forum',
+    sourceType: 'Social Media',
+    date: '2026-09-12',
+    notes: 'Dangerous medical over-generalization claiming permanent immunity without double-blind placebo testing or antibody titration records.',
+    expectedSignals: ['Absolute medical guarantee', 'Permanent immunity claim', 'Anti-vaccine replacement'],
+  },
+  {
+    id: 'test-fake-08',
+    title: 'Automated AI trading bot yields guaranteed 800% monthly profit with zero market drawdown risk',
+    text: 'Wall Street quant engineers have left their hedge funds to release a neural network arbitrage bot that exploits microsecond price discrepancies across global forex exchanges. Backtesting proves 100% win rate across 40,000 consecutive simulated trades with no possibility of capital loss.',
+    groundTruth: 'FAKE',
+    category: 'Finance & Economy',
+    format: 'text',
+    source: 'Crypto Bot Promo Landing Page',
+    sourceType: 'Phishing / Scam',
+    date: '2026-09-14',
+    notes: 'Classic investment fraud promising zero risk with astronomical returns, defying fundamental efficient-market and liquidity principles.',
+    expectedSignals: ['Guaranteed 800% return', 'Zero risk claim', '100% win rate absurdity'],
+  },
+
+  // ==========================================
+  // TEXT & NEWS ARTICLES: REAL NEWS SAMPLES
+  // ==========================================
+  {
+    id: 'test-real-01',
+    title: 'Federal Reserve maintains benchmark interest rate following two-day monetary policy meeting',
+    text: 'The Federal Open Market Committee decided unanimously on Wednesday to hold its target federal funds rate unchanged in the 5.25% to 5.50% range. In an official press statement, Federal Reserve Chair Jerome Powell indicated that while headline inflation has decelerated substantially from its 2022 peaks, policymakers require additional empirical evidence that price pressures are moving sustainably toward the central bank’s 2% long-term target before enacting rate reductions.',
+    groundTruth: 'REAL',
+    category: 'Finance & Economy',
+    format: 'text',
+    source: 'Reuters Financial News',
+    sourceType: 'Journalistic Wire',
+    date: '2026-09-20',
+    notes: 'Exemplifies standard factual journalistic attribution, citing named institutional decision-makers, numerical data ranges, and official committee statements.',
+    expectedSignals: ['Named official sources', 'Precise economic indicators', 'Empirical hedging & attribution'],
+  },
+  {
+    id: 'test-real-02',
+    title: 'James Webb Space Telescope observes definitive atmospheric carbon dioxide signature on exoplanet WASP-39 b',
+    text: 'An international collaboration of astronomers utilizing NASA’s James Webb Space Telescope has reported the unambiguous spectroscopic detection of carbon dioxide in the atmosphere of Saturn-mass exoplanet WASP-39 b. The peer-reviewed findings, published in Nature, were obtained using the observatory’s Near-Infrared Spectrograph (NIRSpec) during a transit observation across the host star. The high-resolution transmission spectrum revealed an absorption peak between 4.1 and 4.6 micrometers.',
+    groundTruth: 'REAL',
+    category: 'Science & Space',
+    format: 'text',
+    source: 'Nature Scientific Publishing',
+    sourceType: 'Peer-Reviewed Journal',
+    date: '2026-08-28',
+    notes: 'Rigorous empirical scientific journalism specifying observational instruments (NIRSpec), specific exoplanet designation, wavelength metrics, and peer-reviewed publication venue.',
+    expectedSignals: ['Peer-reviewed citations', 'Specific instrumentation named', 'Quantitative spectral figures'],
+  },
+  {
+    id: 'test-real-03',
+    title: 'Phase 3 randomized clinical trial indicates adjuvant immunotherapy significantly extends relapse-free survival in melanoma',
+    text: 'A multi-center Phase 3 clinical trial encompassing 800 patients across 42 academic medical facilities has demonstrated that adjuvant pembrolizumab significantly improves recurrence-free survival in patients with resected high-risk stage III melanoma. According to findings published in the New England Journal of Medicine, patients receiving the PD-1 inhibitor experienced a 43% lower risk of disease recurrence compared with the placebo control cohort (hazard ratio 0.57; 95% confidence interval, 0.43 to 0.74; p < 0.001).',
+    groundTruth: 'REAL',
+    category: 'Health & Medicine',
+    format: 'text',
+    source: 'New England Journal of Medicine (NEJM)',
+    sourceType: 'Peer-Reviewed Journal',
+    date: '2026-09-15',
+    notes: 'Exemplary clinical study reporting: cohort sample size, double-blind randomization, statistical hazard ratios, 95% confidence intervals, and p-values.',
+    expectedSignals: ['Sample size & multicenter data', 'Statistical confidence intervals', 'Empirical hazard ratios'],
+  },
+  {
+    id: 'test-real-04',
+    title: 'Department of Labor reports nonfarm payroll employment expanded by 216,000 as unemployment holds at 3.7%',
+    text: 'Total nonfarm payroll employment in the United States increased by 216,000 in December, while the national unemployment rate held steady at 3.7%, the U.S. Bureau of Labor Statistics reported on Friday. Job gains occurred primarily in government agencies, healthcare services, social assistance programs, and construction, while transportation and warehousing experienced minor decreases. Average hourly earnings for private nonfarm production workers increased by 15 cents, or 0.4%, to $34.27.',
+    groundTruth: 'REAL',
+    category: 'Politics & Policy',
+    format: 'text',
+    source: 'Associated Press (AP)',
+    sourceType: 'Journalistic Wire',
+    date: '2026-01-05',
+    notes: 'Factual statistical reporting directly sourced from government statistical agency, balanced sector breakdown, and numerical data.',
+    expectedSignals: ['Agency attribution (BLS)', 'Disaggregated sector data', 'Precise wage & job numbers'],
+  },
+  {
+    id: 'test-real-05',
+    title: 'European Space Agency Copernicus Climate Change Service confirms record global surface air temperatures',
+    text: 'The Copernicus Climate Change Service, implemented by the European Centre for Medium-Range Weather Forecasts on behalf of the European Commission, confirmed that global average surface air temperatures reached 14.98 degrees Celsius last year, exceeding the previous record set in 2016 by 0.17 degrees Celsius. Data collected from satellite reanalysis models and in-situ ground monitoring stations indicate that temperatures were 1.48 degrees Celsius warmer than the 1850-1900 pre-industrial benchmark period.',
+    groundTruth: 'REAL',
+    category: 'Environment & Climate',
+    format: 'text',
+    source: 'BBC News Science & Environment',
+    sourceType: 'Journalistic Wire',
+    date: '2026-01-09',
+    notes: 'Credible climate data reporting with verified institutional sources (ECMWF, Copernicus), comparative historical baselines, and exact temperature differentials.',
+    expectedSignals: ['Institutional authority (Copernicus)', 'Pre-industrial baselines', 'Measured Celsius differentials'],
+  },
+  {
+    id: 'test-real-06',
+    title: 'Taiwan Semiconductor Manufacturing Co expands cutting-edge 2nm fabrication plant investments amid surging AI demand',
+    text: 'Taiwan Semiconductor Manufacturing Co (TSMC) announced plans on Thursday to allocate up to $32 billion in capital expenditures this fiscal year, prioritizing high-volume production of its next-generation 2-nanometer gate-all-around transistor nodes. TSMC Chief Executive C.C. Wei stated during an investor earnings briefing that demand for energy-efficient accelerator silicon from high-performance computing and enterprise artificial intelligence customers continues to outpace historical projections.',
+    groundTruth: 'REAL',
+    category: 'Technology & AI',
+    format: 'text',
+    source: 'Bloomberg Technology',
+    sourceType: 'Journalistic Wire',
+    date: '2026-09-19',
+    notes: 'Credible business journalism with executive quotes during public earnings calls, quantified capital expenditure targets, and manufacturing node specifications.',
+    expectedSignals: ['Executive attribution (C.C. Wei)', 'Capital expenditure figures', 'Engineering node specs'],
+  },
+
+  // ==========================================
+  // IMAGE OCR TRANSCRIPTS: FAKE & REAL SAMPLES
+  // ==========================================
+  {
+    id: 'test-ocr-01',
+    title: 'Viral Social Screenshot: Big Pharma Banned Miracle Anti-Parasitic Cancer Treatment',
+    text: 'ATTENTION EVERYONE: A brave Texas nurse was fired today for uploading this photo of the locked dispensary cabinet. This simple $2 horse medicine cures pancreatic and lung cancer in 72 hours. Hospitals make $300,000 per chemo patient so the FDA put a federal gag order on all doctors. Share this image before it gets permanently censored from the internet!',
+    groundTruth: 'FAKE',
+    category: 'Health & Medicine',
+    format: 'image',
+    source: 'Facebook Viral Meme / Screenshot',
+    sourceType: 'Social Media',
+    date: '2026-09-17',
+    notes: 'High-contrast viral meme image OCR transcription featuring artificial censorship urgency, anonymous nurse claims, and anti-pharma financial tropes.',
+    expectedSignals: ['Viral meme typography', 'Hospital cost conspiracy', 'Instant 72-hour cure'],
+    sampleMeta: {
+      imageBadge: 'JPEG 1080x1350 • Inconsistent Typography Detected (94%)',
+      fileSizeKb: 420,
+    },
+  },
+  {
+    id: 'test-ocr-02',
+    title: 'Telegram Capture: Microchip Injector Protocol Document',
+    text: 'INTERNAL MEMORANDUM: Project CleanWater Phase 4. Dispersal of nanotech water surveillance markers scheduled across water supply. Citizens will be completely tracked by municipal receivers. DO NOT DISCLOSE TO MEDIA UNDER PENALTY OF TREASON.',
+    groundTruth: 'FAKE',
+    category: 'Politics & Policy',
+    format: 'image',
+    source: 'Telegram Channel Screenshot',
+    sourceType: 'Social Media',
+    date: '2026-09-21',
+    notes: 'Doctored synthetic document screenshot with fake classification stamps and grammatical anomalies.',
+    expectedSignals: ['Fake classification banner', 'Sensational nanotech claim', 'Font alignment anomalies'],
+    sampleMeta: {
+      imageBadge: 'PNG 800x1200 • Metadata Stamp Tampered',
+      fileSizeKb: 610,
+    },
+  },
+  {
+    id: 'test-ocr-03',
+    title: 'Verified Broadcast Capture: Reuters Breaking News on Central Bank Currency Swaps',
+    text: 'REUTERS BREAKING: Bank of England and Bank of Japan agree to expand standing US dollar liquidity swap arrangements to ensure cross-border interbank financial stability. Officials emphasize global banking reserves remain robust and orderly amid standard quarterly refinancing operations.',
+    groundTruth: 'REAL',
+    category: 'Finance & Economy',
+    format: 'image',
+    source: 'Reuters Television Broadcast Snapshot',
+    sourceType: 'Journalistic Wire',
+    date: '2026-09-24',
+    notes: 'Verified OCR broadcast grab from recognized financial news service with authentic lower-third typography and formal central bank terminology.',
+    expectedSignals: ['Official news ticker', 'Interbank liquidity terms', 'Balanced institutional framing'],
+    sampleMeta: {
+      imageBadge: 'HD Screen Capture 1920x1080 • Verified Lower Third',
+      fileSizeKb: 890,
+    },
+  },
+  {
+    id: 'test-ocr-04',
+    title: 'Doctored Celebrity Crypto Interview: Live TV Wealth Hack',
+    text: 'BREAKING NEWS: Live on CNN, Elon Musk reveals quantum trading system that pays $500 an hour automatically. "I invested $250 and made $14,000 this morning. Anyone can do this from their phone." Register now before the banks shut down the servers!',
+    groundTruth: 'FAKE',
+    category: 'Finance & Economy',
+    format: 'image',
+    source: 'Deepfake Screenshot Ad Banner',
+    sourceType: 'Phishing / Scam',
+    date: '2026-09-27',
+    notes: 'Fraudulent advertising overlay simulating CNN graphic templates with fake celebrity quotes to drive phishing signups.',
+    expectedSignals: ['Celebrity likeness misuse', 'Fabricated quotes', 'Urgent call-to-deposit'],
+    sampleMeta: {
+      imageBadge: 'WebP 720x960 • Compression Artifacts in Logo Zone',
+      fileSizeKb: 340,
+    },
+  },
+  {
+    id: 'test-ocr-05',
+    title: 'Scientific Journal Infographic: Nature Climate Carbon Budget Graphic',
+    text: 'Global Remaining Carbon Budget Analysis: Estimated carbon emission allowance to maintain atmospheric warming below 1.5°C with a 50% probability stands at approximately 250 gigatons of CO2 equivalent from 2026 onwards. Data synthesized from 24 atmospheric climate model ensembles.',
+    groundTruth: 'REAL',
+    category: 'Environment & Climate',
+    format: 'image',
+    source: 'Nature Climate Change Figure 2 OCR',
+    sourceType: 'Peer-Reviewed Journal',
+    date: '2026-09-02',
+    notes: 'Authentic academic journal chart OCR with empirical units (gigatons CO2), probability metrics, and ensemble attribution.',
+    expectedSignals: ['Scientific units (Gt CO2)', 'Probability qualifiers', 'Model ensemble attribution'],
+    sampleMeta: {
+      imageBadge: 'TIFF Academic Graphic 1400x900 • Clean Kerning & Crisp Grid',
+      fileSizeKb: 1120,
+    },
+  },
+
+  // ==========================================
+  // DOCUMENT & MEMO SAMPLES: FAKE & REAL
+  // ==========================================
+  {
+    id: 'test-doc-01',
+    title: 'Leaked Dossier: Operation Nightfall Electromagnetic Weaponry Deployment Memo',
+    text: 'TOP SECRET // EYES ONLY // SPECIAL ACCESS REQUIRED. SUBJECT: Cognitive Dissolution Frequencies via Cellular Transmitters. Directives approved for clandestine deployment across key electoral districts to induce compliant voting behavior. Whistleblowers will be eliminated. Executive authorization code 998-OMEGA.',
+    groundTruth: 'FAKE',
+    category: 'Politics & Policy',
+    format: 'document',
+    source: 'Anonymous Pastebin Leaked PDF',
+    sourceType: 'Conspiracy Blog',
+    date: '2026-09-08',
+    notes: 'Theatrical Hollywood-style secret memo full of melodrama ("EYES ONLY", "Executive code 998-OMEGA") with no plausible bureaucratic administrative structure.',
+    expectedSignals: ['Hollywood secrecy cliches', 'Melodramatic threats', 'No bureaucratic authenticity'],
+    sampleMeta: {
+      documentType: 'PDF Document (2 pages)',
+      fileSizeKb: 185,
+    },
+  },
+  {
+    id: 'test-doc-02',
+    title: 'World Health Organization: Epidemiological Influenza and Respiratory Virus Surveillance Summary',
+    text: 'Global Influenza Surveillance and Response System (GISRS) Weekly Update No. 462. Between reporting periods, national influenza centres across 114 member countries tested 342,890 specimens. Of these, 18,412 were positive for influenza viruses, with influenza A accounting for 78.4% (subtyped as A(H1N1)pdm09 and A(H3N2)) and influenza B representing 21.6%. Seasonal vaccine antigenic match remains closely aligned with prevailing circulating strains in both northern and southern hemispheres.',
+    groundTruth: 'REAL',
+    category: 'Health & Medicine',
+    format: 'document',
+    source: 'World Health Organization (WHO) Official Report',
+    sourceType: 'Government Agency',
+    date: '2026-09-10',
+    notes: 'Rigorous public health epidemiological dispatch detailing concrete laboratory specimen counts, subtype percentages, and surveillance methodology.',
+    expectedSignals: ['Global agency acronyms (GISRS)', 'Granular specimen counts', 'Biological subtyping data'],
+    sampleMeta: {
+      documentType: 'PDF Report (14 pages)',
+      fileSizeKb: 840,
+    },
+  },
+  {
+    id: 'test-doc-03',
+    title: 'Unpublished Natural Panacea Protocol: Ancient Tibetan Plant Extracts Cure Alzheimer’s Disease',
+    text: 'PRIVATE CLINICAL MONOGRAPH: The secret Himalayan roots that reverse senile dementia and Alzheimer’s plaque in seven days. Modern neurology suppresses this document because pharmaceutical companies would lose trillions in monoclonal antibody treatments. Patients regain full memory recall after taking three daily teaspoons of the proprietary herbal infusion.',
+    groundTruth: 'FAKE',
+    category: 'Health & Medicine',
+    format: 'document',
+    source: 'Self-Published PDF Pamphlet',
+    sourceType: 'Conspiracy Blog',
+    date: '2026-09-11',
+    notes: 'Pseudoscientific health pamphlet claiming 7-day reversal of complex neurodegenerative plaque without peer-reviewed histopathological evidence.',
+    expectedSignals: ['Neurodegenerative cure claim', 'Suppression of trillions trope', 'Herbal infusion panacea'],
+    sampleMeta: {
+      documentType: 'DOCX Document (5 pages)',
+      fileSizeKb: 92,
+    },
+  },
+  {
+    id: 'test-doc-04',
+    title: 'National Oceanic and Atmospheric Administration: Climate Monitoring Annual Baseline Report',
+    text: 'NOAA National Centers for Environmental Information: Annual Global Climate Report. Global sea surface temperature anomalies during the past meteorological cycle averaged 0.94°C above the 20th-century mean of 16.1°C, ranking as the warmest on record since instrumental observations commenced in 1850. Data integration combines observations from satellite radiometers, oceanic Argo drifting floats, and moored coastal buoys.',
+    groundTruth: 'REAL',
+    category: 'Environment & Climate',
+    format: 'document',
+    source: 'NOAA Official Technical Memorandum',
+    sourceType: 'Government Agency',
+    date: '2026-09-04',
+    notes: 'High-grade empirical meteorological document citing specific measurement platforms (Argo floats, moored buoys) and historical baseline deviations.',
+    expectedSignals: ['Instrumental systems (Argo floats)', 'Comparative 20th-century mean', 'Clear historical baseline'],
+    sampleMeta: {
+      documentType: 'PDF Memorandum (28 pages)',
+      fileSizeKb: 1450,
+    },
+  },
+  {
+    id: 'test-doc-05',
+    title: 'Cryptocurrency Arbitrage Whitepaper: Guaranteed Risk-Free Tri-Exchange Yield Engine',
+    text: 'PROJECT SOLOMON DECENTRALIZED PROTOCOL: Utilizing asynchronous cross-chain flash loans and zero-knowledge liquidity pools, the Solomon smart contract executes risk-free arbitrage across Ethereum and Solana. Investors deposit stablecoins and receive guaranteed 4% daily interest compounded hourly. Zero downside exposure is mathematically secured by automated liquidation reserve bots.',
+    groundTruth: 'FAKE',
+    category: 'Finance & Economy',
+    format: 'document',
+    source: 'Unsolicited Discord PDF Whitepaper',
+    sourceType: 'Phishing / Scam',
+    date: '2026-09-16',
+    notes: 'Classic DeFi Ponzi whitepaper loaded with technical jargon to disguise mathematically impossible guaranteed compounding interest rates.',
+    expectedSignals: ['Guaranteed 4% daily interest', 'Impossible zero-downside claim', 'Buzzword-heavy obfuscation'],
+    sampleMeta: {
+      documentType: 'PDF Whitepaper (8 pages)',
+      fileSizeKb: 512,
+    },
+  },
+  {
+    id: 'test-doc-06',
+    title: 'CERN Large Hadron Collider Research Note: Precision Measurement of W Boson Mass',
+    text: 'ATLAS Collaboration Research Note: Measurement of the W boson mass using 13 TeV proton-proton collision data collected by the ATLAS detector at the CERN Large Hadron Collider. Based on an integrated luminosity of 140 fb⁻¹, the measured W boson mass is determined to be 80,360 ± 16 MeV, consistent within experimental uncertainties with the Standard Model prediction of 80,357 ± 6 MeV.',
+    groundTruth: 'REAL',
+    category: 'Science & Space',
+    format: 'document',
+    source: 'CERN / ATLAS Collaboration Preprint',
+    sourceType: 'Peer-Reviewed Journal',
+    date: '2026-08-15',
+    notes: 'Authentic high-energy physics research note citing collision energies (13 TeV), integrated luminosity in inverse femtobarns, and exact mega-electronvolt error margins.',
+    expectedSignals: ['LHC ATLAS experiment specs', 'Inverse femtobarns luminosity', 'Standard Model error margins'],
+    sampleMeta: {
+      documentType: 'PDF Research Note (36 pages)',
+      fileSizeKb: 2180,
+    },
+  },
+];

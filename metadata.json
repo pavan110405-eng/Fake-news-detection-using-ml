@@ -1,0 +1,8 @@
+{
+  "name": "Remix TruthLens",
+  "description": "Professional News Verification \u0026 Social Intelligence Platform for misinformation analysis, claim investigation, media forensics, and ML model evaluation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
